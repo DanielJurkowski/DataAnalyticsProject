@@ -1,5 +1,6 @@
 data {
-    int<lower=0> N; // number of observations
+    // number of observations
+    int<lower=0> N; 
 }
 
 generated quantities {
@@ -9,7 +10,7 @@ generated quantities {
     real<lower=0, upper=25> studying_hours = abs(normal_rng(7, 3)); 
     // randomly generate hangouts between 0 and 4, uniformly distributed
     real<lower=0, upper=4> hangouts = uniform_rng(0, 4);
-    // randomly generate gender probability between 0 and 1, using a beta distribution with parameters 2 and 2
+
     real sigma = abs(normal_rng(0, 0.5)); 
 
     // generate predicted GPA for each observation using a normal distribution with mean based on studying 
