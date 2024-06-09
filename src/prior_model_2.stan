@@ -1,23 +1,21 @@
 data {
     int<lower=0> N; // number of observations
-    array[N] real<lower=0, upper=8> hours;
+    array[N] real<lower=0, upper=4> hours;
     array[N] real<lower=0, upper=4> hangouts;
-    array[N] real<lower=0, upper=4> drinks;
+    array[N] real<lower=0, upper=4> drinks; // Drinks predictor
 }
 
 generated quantities {
-    array[N] real<lower=0, upper=100> predicted_gpa; // predicted GPA for each observation
+    array[N] real<lower=0, upper=100> predicted_gpa; 
 
-    // Parameteres for gamma distribution, chosen so that the average is about 70-80
-    real a = normal_rng(25, 0.5);
-    real b = normal_rng(8, 0.3); 
-    real alpha = abs(normal_rng(0.75, 0.1));
-    real beta = normal_rng(-0.25, 0.05);
-    real scale = 100;
+    real alpha = abs(normal_rng(25, 0.1));
+    real beta = abs(normal_rng(8, 0.1));
+    real a = normal_rng(0.75, 0.1);
+    real b = normal_rng(-0.25, 0.05);
 
-    // Generate predicted GPA for each observation using a gamma distribution summed with with mean based on studying 
-    // hours, hangouts and consumption of alcohol (drinks per hangout)
+    // Generate predicted GPA for each observation using a beta distribution summed with values based studying 
+    // hours, hangouts and consumption of alcohol
     for (i in 1:N) {
-        predicted_gpa[i] = scale * beta_rng(a, b) + alpha * hours[i] + beta * hangouts[i] * drinks[i];
+        predicted_gpa[i] = 100 * beta_rng(alpha, beta) + a * hours[i] + b * hangouts[i] * drinks[i];
     }
 }
