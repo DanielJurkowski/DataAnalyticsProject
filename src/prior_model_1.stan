@@ -1,6 +1,6 @@
 data {
     int<lower=0> N; // Number of observations
-    array[N] real<lower=0, upper=4> hours;
+    array[N] real<lower=0, upper=8> hours;
     array[N] real<lower=0, upper=4> hangouts;
 }
 

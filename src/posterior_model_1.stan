@@ -1,7 +1,7 @@
 data {
     int<lower=0> N; // Number of observations
     array[N] real<lower=0, upper=100> gpa;
-    array[N] real<lower=0, upper=4> hours;
+    array[N] real<lower=0, upper=8> hours;
     array[N] real<lower=0, upper=4> hangouts;
 }
 
@@ -34,8 +34,10 @@ model {
 
 generated quantities {
     array[N] real<lower=0, upper=100> predicted_gpa; // Predicted GPA for each observation
-
+    array[N] real log_likelyhood; 
+    
     for (i in 1:N) {
+        log_likelyhood[i] = normal_lpdf(gpa[i] | mu[i], sigma);
         predicted_gpa[i] = normal_rng(mu[i], sigma);
     }
 }
