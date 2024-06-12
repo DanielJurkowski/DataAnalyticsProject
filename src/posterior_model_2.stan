@@ -9,9 +9,9 @@ data {
 parameters {
     real theta_1;
     real theta_2; 
-    real a;
-    real b;
-    real c;
+    real theta_3;
+    real theta_4;
+    real theta_5;
 }
 
 transformed parameters {
@@ -19,17 +19,17 @@ transformed parameters {
     array[N] real<lower=0> beta_param;
     // zategowac trzeba
     for (i in 1:N) {
-         alpha_param[i] = theta_1 + a * hours[i];
-         beta_param[i] = theta_2 + b * hangouts[i] + c * drinks[i];
+         alpha_param[i] = theta_1 + theta_2 * hours[i];
+         beta_param[i] = theta_3 + theta_4 * hangouts[i] + theta_5 * drinks[i];
     }
 }
 
 model {
     theta_1 ~ lognormal(3.63, 0.02);
-    theta_2 ~ lognormal(2.3, 0.1);
-    a ~ lognormal(0.4, 0.1);
-    b ~ lognormal(0.01, 0.1);
-    c ~ lognormal(0.01, 0.1);
+    theta_2 ~ lognormal(0.4, 0.1);
+        theta_3 ~ lognormal(2.3, 0.1);
+    theta_4 ~ lognormal(0.01, 0.1);
+    theta_5 ~ lognormal(0.01, 0.1);
 
     for (i in 1:N) {
         scaled_gpa[i] ~ beta(alpha_param[i], beta_param[i]);
