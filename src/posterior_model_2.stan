@@ -11,26 +11,28 @@ parameters {
     real theta_2; 
     real a;
     real b;
+    real c;
 }
 
 transformed parameters {
-    array[N] real<lower=0> alpha;
-    array[N] real<lower=0> beta;
+    array[N] real<lower=0> alpha_param;
+    array[N] real<lower=0> beta_param;
     // zategowac trzeba
     for (i in 1:N) {
-         alpha[i] = fmax(theta_1 + a * hours[i], 0);
-         beta[i] = fmax(theta_2 + b * hangouts[i] * drinks[i], 0);
+         alpha_param[i] = theta_1 + a * hours[i];
+         beta_param[i] = theta_2 + b * hangouts[i] + c * drinks[i];
     }
 }
 
 model {
-    theta_1 ~ normal(38, 2);
-    theta_2 ~ normal(10, 1);
-    a ~ normal(1.5, 0.3);
-    b ~ normal(0.75, 0.05);
+    theta_1 ~ lognormal(3.63, 0.02);
+    theta_2 ~ lognormal(2.3, 0.1);
+    a ~ lognormal(0.4, 0.1);
+    b ~ lognormal(0.01, 0.1);
+    c ~ lognormal(0.01, 0.1);
 
     for (i in 1:N) {
-        scaled_gpa[i] ~ beta(alpha[i], beta[i]);
+        scaled_gpa[i] ~ beta(alpha_param[i], beta_param[i]);
     }
 }
 
@@ -39,7 +41,7 @@ generated quantities {
     vector[N] log_likelihood; 
 
     for (i in 1:N) {
-        log_likelihood[i] = beta_lpdf(scaled_gpa[i] | alpha[i], beta[i]); 
-        predicted_scaled_gpa[i] = beta_rng(alpha[i], beta[i]);
+        log_likelihood[i] = beta_lpdf(scaled_gpa[i] | alpha_param[i], beta_param[i]); 
+        predicted_scaled_gpa[i] = beta_rng(alpha_param[i], beta_param[i]);
     }
 }
