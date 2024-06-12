@@ -16,10 +16,10 @@ parameters {
 transformed parameters {
     array[N] real<lower=0> alpha;
     array[N] real<lower=0> beta;
-
+    // zategowac trzeba
     for (i in 1:N) {
-         alpha[i] = theta_1 + a * hours[i];
-         beta[i] = theta_2 + b * hangouts[i] * drinks[i];
+         alpha[i] = fmax(theta_1 + a * hours[i], 0);
+         beta[i] = fmax(theta_2 + b * hangouts[i] * drinks[i], 0);
     }
 }
 
