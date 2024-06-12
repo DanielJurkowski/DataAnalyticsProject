@@ -27,7 +27,7 @@ transformed parameters {
 model {
     theta_1 ~ lognormal(3.63, 0.02);
     theta_2 ~ lognormal(0.4, 0.1);
-        theta_3 ~ lognormal(2.3, 0.1);
+    theta_3 ~ lognormal(2.3, 0.1);
     theta_4 ~ lognormal(0.01, 0.1);
     theta_5 ~ lognormal(0.01, 0.1);
 
