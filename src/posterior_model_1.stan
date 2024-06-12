@@ -8,7 +8,7 @@ data {
 parameters {
     real alpha;
     real beta;
-    real sigma;
+    real<lower=0> sigma;
     real theta;
 
 }
@@ -38,6 +38,6 @@ generated quantities {
     vector[N] log_likelihood; 
     for (i in 1:N) {
         log_likelihood[i] = normal_lpdf(gpa[i] | mu[i], sigma);
-        predicted_gpa[i] = normal_rng(mu[i], sigma);
+        predicted_gpa[i] = fmin(normal_rng(mu[i], sigma), 100);
     }
 }
