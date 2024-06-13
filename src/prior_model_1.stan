@@ -9,7 +9,7 @@ generated quantities {
     array[N] real<lower=0, upper=100> predicted_gpa; // Predicted GPA for each observation
 
     // Predictors coefficients
-    real theta_1 = normal_rng(70, 3);
+    real theta_1 = normal_rng(75, 3);
     real theta_2 = normal_rng(1.5, 0.2);
     real theta_3 = normal_rng(-0.5, 0.3);
     real theta_4 = normal_rng(-0.75, 0.3);

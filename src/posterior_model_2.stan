@@ -6,6 +6,7 @@ data {
     array[N] real<lower=0, upper=1> scaled_gpa;
 }
 
+
 parameters {
     real theta_1;
     real theta_2; 

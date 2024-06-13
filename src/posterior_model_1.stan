@@ -11,7 +11,7 @@ parameters {
     real theta_2;
     real theta_3;
     real theta_4;
-    real<lower=0> sigma;
+    real sigma;
 
 }
 
@@ -23,7 +23,7 @@ transformed parameters {
 }
 
 model {
-    theta_1 ~ normal(70, 3);
+    theta_1 ~ normal(75, 3);
     theta_2 ~ normal(1.5, 0.2);
     theta_3 ~ normal(-0.5, 0.3);
     theta_4 ~ normal(-0.75, 0.3);
