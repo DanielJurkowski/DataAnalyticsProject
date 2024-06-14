@@ -1,8 +1,8 @@
 data {
     int<lower=0> N; // Number of observations
-    array[N] real<lower=0, upper=4> hours; // Hours spent studying predictor
-    array[N] real<lower=0, upper=4> hangouts; // Hangouts predictor
-    array[N] real<lower=0, upper=4> drinks; // Drinks predictor
+    array[N] int<lower=0, upper=4> hours; // Hours spent studying predictor
+    array[N] int<lower=0, upper=4> hangouts; // Hangouts predictor
+    array[N] int<lower=0, upper=4> drinks; // Drinks predictor
 }
 
 generated quantities {
@@ -20,6 +20,6 @@ generated quantities {
     // Generate predicted GPA for each observation using a normal distribution with mean based on studying 
     // hours, hangouts and drinks
     for (i in 1:N) {
-        predicted_gpa[i] = normal_rng(theta_1 + theta_2 * hours[i] + theta_3 * hangouts[i] + theta_4 * drinks[i], sigma);
+        predicted_gpa[i] = fmax(fmin(normal_rng(theta_1 + theta_2 * hours[i] + theta_3 * hangouts[i] + theta_4 * drinks[i], sigma), 100), 0);
     }
 }
